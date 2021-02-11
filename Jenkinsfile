@@ -29,15 +29,15 @@ node{
      // withCredentials([string(credentialsId: 'dockerpwdAnuragjain12', variable: 'dockerPWD')]
     stage('Run Docker Image'){
             def dockerContainerName = 'mongo_$JOB_NAME_$BUILD_NUMBER'
-            def changingPermission='sudo chmod +x stopscript.sh'
-            def scriptRunner='sudo ./stopscript.sh'           
+            //def changingPermission='sudo chmod +x stopscript.sh'
+            //def scriptRunner='sudo ./stopscript.sh'           
             def dockerRun= "sudo docker run -p 27017:270117 -d --name ${dockerContainerName} ${dockerImageName}" 
             //withCredentials([string(credentialsId: 'deploymentserverpwd', variable: 'dpPWD')]) 
             withCredentials([usernamePassword(credentialsId: 'test123456', usernameVariable: 'USERNAME', passwordVariable: 'dpPWD')]){
                   sh "sshpass -p ${dpPWD} ssh -o StrictHostKeyChecking=no ${USERNAME}@34.123.37.223" 
                   sh "sshpass -p ${dpPWD} scp -r stopscript.sh ${USERNAME}@52.76.172.196:/home/devops" 
                   sh "sshpass -p ${dpPWD} ssh -o StrictHostKeyChecking=no ${USERNAME}@34.123.37.223 ${changingPermission}"
-                  sh "sshpass -p ${dpPWD} ssh -o StrictHostKeyChecking=no ${USERNAME}@34.123.37.223 ${scriptRunner}"
+                  //sh "sshpass -p ${dpPWD} ssh -o StrictHostKeyChecking=no ${USERNAME}@34.123.37.223 ${scriptRunner}"
                   sh "sshpass -p ${dpPWD} ssh -o StrictHostKeyChecking=no ${USERNAME}@34.123.37.223 ${dockerRun}"
             }
             
