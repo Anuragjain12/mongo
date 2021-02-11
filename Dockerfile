@@ -1,2 +1,13 @@
-FROM tomcat:8.0.51-jre8-alpine
-COPY target/*.war /usr/local/tomcat/webapps/
+FROM mongo:latest
+
+ENV MONGO_USER=mongodb \
+    MONGO_DATA_DIR=/var/lib/mongodb \
+    MONGO_LOG_DIR=/var/log/mongodb
+
+//COPY entrypoint.sh /sbin/entrypoint.sh
+//RUN chmod 755 /sbin/entrypoint.sh
+
+EXPOSE 27017/tcp
+VOLUME ["${MONGO_DATA_DIR}"]
+//ENTRYPOINT ["/sbin/entrypoint.sh"]
+CMD ["/usr/bin/mongod"]
